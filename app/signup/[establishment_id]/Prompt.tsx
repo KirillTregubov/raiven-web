@@ -2,8 +2,12 @@
 
 import { useEffect, useState } from 'react'
 
-export default function Prompt({ establishment_id }) {
-  const [url, setUrl] = useState(null)
+export default function Prompt({
+  establishment_id
+}: {
+  establishment_id: string
+}) {
+  const [url, setUrl] = useState<string | null>(null)
 
   useEffect(() => {
     if (!url && establishment_id) {
