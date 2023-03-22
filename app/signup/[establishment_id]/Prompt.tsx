@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 export default function Prompt({
   establishment_id
@@ -9,6 +9,11 @@ export default function Prompt({
 }) {
   const [url, setUrl] = useState<string | null>(null)
   const derivedUrl = `exp://${url}:19000/--/signup?establishment_id=${establishment_id}`
+
+  const redirect = useCallback(() => {
+    if (!url) return
+    window.location.replace(derivedUrl)
+  }, [derivedUrl, url])
 
   useEffect(() => {
     if (!url && establishment_id) {
@@ -21,18 +26,13 @@ export default function Prompt({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  // useEffect(() => {
-  //   if (url) {
-  //     redirect()
-  //   }
-  // }, [url])
+  useEffect(() => {
+    if (url) {
+      redirect()
+    }
+  }, [redirect, url])
 
   if (!establishment_id) return <div>Establishment ID not found</div>
-
-  const redirect = () => {
-    if (!url) return
-    window.location.replace(derivedUrl)
-  }
 
   return (
     <div>
