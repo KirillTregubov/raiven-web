@@ -8,6 +8,7 @@ export default function Prompt({
   establishment_id: string
 }) {
   const [url, setUrl] = useState<string | null>(null)
+  const derivedUrl = `exp://${url}:19000/--/signup?establishment_id=${establishment_id}`
 
   useEffect(() => {
     if (!url && establishment_id) {
@@ -30,12 +31,12 @@ export default function Prompt({
 
   const redirect = () => {
     if (!url) return
-    window.location.replace(`exp://${url}:19000/--/signup/${establishment_id}`)
+    window.location.replace(derivedUrl)
   }
 
   return (
     <div>
-      <a href={`exp://${url}:19000/--/signup/${establishment_id}`}>Open link</a>
+      <a href={derivedUrl}>Open link</a>
     </div>
   )
 }
