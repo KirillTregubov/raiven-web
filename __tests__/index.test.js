@@ -10,13 +10,6 @@ describe('Layout', () => {
   it('renders a heading', () => {
     render(<RootLayout />)
   })
-
-  //   it('contains correct metadata', () => {
-  //     expect(metadata).toEqual({
-  //       title: 'RAIVEN',
-  //       description: 'Computer Vision Powered Identification System'
-  //     })
-  //   })
 })
 
 describe('Home', () => {
