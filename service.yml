@@ -1,0 +1,19 @@
+tools:
+  exceptions: https://dcsil.sentry.io/issues/?project=4504981554528256
+  logging: https://dcsil.sentry.io/issues/?project=4504981554528256
+  ci: .github/workflows/test.yml
+
+services:
+  production: https://raiven.vercel.app/
+
+docs:
+  getting_started: ./README.md
+
+commands:
+  bootstrap: script/bootstrap
+  test: npm run test
+  start: npm run dev
+  lint: npm run lint
+  typecheck: npm run typecheck
+  database: ''
+  server: npm run build && npm run start
