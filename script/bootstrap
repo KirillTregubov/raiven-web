@@ -1,0 +1,73 @@
+#!/bin/bash
+
+set -e
+
+# Constants
+NPM_VERSION="$(cat .nvmrc)"
+NVM_VERSION="v0.39.3"
+MAIN_COLOR="\033[1;36m"
+GREEN_COLOR="\033[1;32m"
+RED_COLOR="\033[1;31m"
+
+# Helpers
+formatHeader () {
+  echo -e "$MAIN_COLOR$1\033[0m\n"
+}
+
+formatSuccess () {
+  echo -e "✔ $GREEN_COLOR$1\033[0m\n"
+}
+
+formatError () {
+  echo -e "❌ $RED_COLOR$1\033[0m\n"
+}
+
+# Make nvm command available to terminal
+. ~/.nvm/nvm.sh 2>/dev/null || true
+
+# Install nvm and Node.js
+if [ "$(node -v 2>/dev/null)" != $NPM_VERSION ]; then
+  echo $(formatHeader "📥 Installing nvm")
+
+  # Install nvm
+  if command -v curl >/dev/null; then
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/$NVM_VERSION/install.sh | bash
+  elif command -v wget >/dev/null; then
+    wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/$NVM_VERSION/install.sh | bash
+  else
+    echo $(formatError "Failed to install nvm. Please install curl or wget and try again.")
+    exit 1
+  fi
+
+  set +e
+  # Make nvm command available to terminal
+  export NVM_DIR="$HOME/.nvm"
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+  set -e
+
+  if ! command -v nvm >/dev/null; then
+    echo $(formatError "Failed to install nvm")
+    exit 1
+  fi
+  echo $(formatSuccess "nvm version $(nvm -v) installed successfully")
+
+  echo $(formatHeader "📥 Installing Node.js")
+  nvm install;
+  nvm use;
+
+  if [ "$(node -v)" != $NPM_VERSION ]; then
+    echo $(formatError "Failed to install Node.js version $NPM_VERSION")
+    exit 1
+  fi
+  echo $(formatSuccess "Node.js version $(node -v) installed successfully")
+
+else
+  echo $(formatHeader "⏩ Node.js version $(node -v) already installed")
+fi
+
+echo $(formatHeader "📥 Installing dependencies")
+npm ci
+echo $(formatSuccess "Dependencies installed successfully")
+
+exit 0
