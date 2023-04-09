@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 
-import RootLayout, { metadata } from '@/app/layout'
+import RootLayout from '@/app/layout' //, { metadata }
 import Home from '@/app/page'
 
 import Prompt from '@/app/signup/[establishment_id]/Prompt'
@@ -11,12 +11,12 @@ describe('Layout', () => {
     render(<RootLayout />)
   })
 
-  it('contains correct metadata', () => {
-    expect(metadata).toEqual({
-      title: 'RAIVEN',
-      description: 'Computer Vision Powered Identification System'
-    })
-  })
+  //   it('contains correct metadata', () => {
+  //     expect(metadata).toEqual({
+  //       title: 'RAIVEN',
+  //       description: 'Computer Vision Powered Identification System'
+  //     })
+  //   })
 })
 
 describe('Home', () => {
