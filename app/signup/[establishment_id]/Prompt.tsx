@@ -7,7 +7,7 @@ export default function Prompt({
 }: {
   establishment_id: string
 }) {
-  const [url, setUrl] = useState<string | null>(null)
+  const [url, setUrl] = useState<string | null>('10.0.0.132')
   const derivedUrl = `exp://${url}:19000/--/signup?establishment_id=${establishment_id}`
 
   const redirect = useCallback(() => {
